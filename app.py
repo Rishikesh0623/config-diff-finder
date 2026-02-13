@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from diff_finder import compare_files
+from diff_finder.set_diff import set_compare
 
 app = Flask(__name__)
 
@@ -15,7 +15,7 @@ def compare():
     if not file1 or not file2:
         return 'Both files must be uploaded', 400
 
-    results = compare_files(file1, file2)
+    results = set_compare(file1, file2)
 
     return render_template('result.html', added=results['added'], removed=results['removed'])
 
