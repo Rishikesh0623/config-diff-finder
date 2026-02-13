@@ -1,34 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diff Result</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #f4f5f7;
+            padding: 40px;
+        }
+
+        .diff-container {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .added {
+            background-color: #e6ffed;
+            color: #055d1f;
+            padding: 4px;
+        }
+
+        .removed {
+            background-color: #ffeef0;
+            color: #86181d;
+            padding: 4px;
+        }
+
+        .unchanged {
+            color: #444;
+            padding: 4px;
+        }
+
+        .section-title {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #0052cc;
+        }
+    </style>
+</head>
 <body>
-    <h2>Comparison Result</h2>
 
-    {% if not added and not removed %}
-        <p style="color: green;"><strong>No differences found.</strong></p>
-    {% else %}
+<div class="diff-container">
 
-        <h3>Added Lines</h3>
-        {% if added %}
-            <ul>
-                {% for line in added %}
-                    <li style="color: green;">{{ line }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>None</p>
+{% if mode == "set" %}
+
+    <div class="section-title">Added</div>
+    {% for line in added %}
+        <div class="added">+ {{ line }}</div>
+    {% endfor %}
+
+    <div class="section-title">Removed</div>
+    {% for line in removed %}
+        <div class="removed">- {{ line }}</div>
+    {% endfor %}
+
+{% elif mode == "sequence" %}
+
+    {% for item in sequence_results %}
+        {% if item.type == "added" %}
+            <div class="added">+ {{ item.content }}</div>
+        {% elif item.type == "removed" %}
+            <div class="removed">- {{ item.content }}</div>
+        {% elif item.type == "unchanged" %}
+            <div class="unchanged">  {{ item.content }}</div>
         {% endif %}
+    {% endfor %}
 
-        <h3>Removed Lines</h3>
-        {% if removed %}
-            <ul>
-                {% for line in removed %}
-                    <li style="color: red;">{{ line }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>None</p>
-        {% endif %}
+{% endif %}
 
-    {% endif %}
+<a href="/">Compare Again</a>
 
-    <br>
-    <a href="/">Compare Again</a>
+</div>
+
 </body>
+</html>
