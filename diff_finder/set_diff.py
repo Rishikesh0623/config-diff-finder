@@ -10,6 +10,7 @@ def normalize(file_obj):
 
 
 def set_compare(file1, file2):
+
     lines1 = normalize(file1)
     lines2 = normalize(file2)
 
